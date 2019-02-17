@@ -271,7 +271,7 @@ def guess_keys(text, most_char):
         max_count = max(chars_count.values())
         for char in chars_count:
             if chars_count[char] >= max_count:
-                key_possible_bytes[offset].append(chr(ord(char) ^ most_char))
+                key_possible_bytes[offset].append(chr(char ^ most_char))
 
     return all_keys(key_possible_bytes)
 
@@ -308,7 +308,7 @@ def print_keys(keys):
 
 def percentage_printable(text):
     x = 0.0
-    for c in text:
+    for c in text.decode('utf8'):
         if c in string.printable:
             x += 1
     return x / len(text)
@@ -326,6 +326,8 @@ def produce_plaintexts(ciphertext, keys, key_char_used):
     """
     cleanup()
     mkdir(DIRNAME)
+
+    print("Done making "+DIRNAME)
 
     # this is split up in two files since the
     # key can contain all kinds of characters
@@ -374,6 +376,8 @@ def produce_plaintexts(ciphertext, keys, key_char_used):
 def cleanup():
     if os.path.exists(DIRNAME):
         rmdir(DIRNAME)
+        import time
+        time.sleep(1)
     return
 
 

@@ -76,8 +76,8 @@ def dexor(text, key):
     ret = list(text)
     mod = len(key)
     for index, char in enumerate(ret):
-        ret[index] = chr(ord(char) ^ ord(key[index % mod]))
-    return "".join(ret)
+        ret[index] = char ^ ord(key[index % mod])
+    return bytes(ret)
 
 
 def die(exitMessage, exitCode=1):
@@ -92,7 +92,7 @@ def is_linux():
 def alphanum(s):
     lst = list(s)
     for index, char in enumerate(lst):
-        if char in (string.letters + string.digits):
+        if char in (string.ascii_letters + string.digits):
             continue
-        lst[index] = char.encode("hex")
+        lst[index] =  hex(ord(char))[2:].zfill(2)
     return "".join(lst)
